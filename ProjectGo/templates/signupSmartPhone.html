@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProjectGo</title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+        <!-- jQuery UI CSS -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <!-- jQuery and jQuery UI JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+        <style>
+            .bar {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+            .input-group-text#basic-addon2 {
+              background-image: linear-gradient(to right, #092163, #fafbfc);
+          }
+        </style>
+        
+    </head>
+    <body class="container-fluid bg-dark text-white"> 
+        <span class="input-group-text" id="basic-addon2"> 
+          <div class="container mt-4 bar">
+            <img src="{% static 'icons/applogo.png' %}" style="width: 15%; height: auto; padding-left: 10px; padding-right: 10px; padding-bottom: 15px; cursor: pointer;" class="d-inline-block align-center" alt="MyApp" onclick="window.location.href='{% url 'home' %}';">
+          </div>
+        </span>
+        
+        <div class="container mt-4">
+
+
+          <h3 style="font-family: 'Calibri';">Welcome</h3>
+          <hr>
+          <h5></h5>
+
+                <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                  
+                  <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Oops!</strong> We have a Problem with the 
+                        
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    {{ field.label }}: {{ field.errors|join:", " }}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/profile-user.svg' %}" width="20" height="20" alt=""> </span>
+                      <!--{{ form.username.label_tag }}-->
+                      {{ form.username }}
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/envelope.png' %}" width="20" height="20" alt=""> </span>
+                      <!--{{ form.username.label_tag }}-->
+                      {{ form.email }}
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                      <!--{{ form.username.label_tag }}-->
+                      {{ form.password1 }}
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                      <!--{{ form.username.label_tag }}-->
+                      {{ form.password2 }}
+                    </div>
+                    
+                  </form>
+                </div>
+              
+         
+       
+                <button type="button" onclick="document.querySelector('form').submit()" class="btn btn-outline-light">Sign Up</button>
+
+
+              </div>
+          
+
+
+</html>

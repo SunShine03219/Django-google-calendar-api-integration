@@ -1,0 +1,18 @@
+{% extends 'emails.html' %}
+{% load static %}
+{% block content %}
+    <h1>Welcome to ProjectGo.lu</h1>
+    <p>Dear {{ user.username }},</p>
+    <p>Thank you for signing up. We are excited to have you as a new member.</p>
+
+
+    <p style="margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
+       Please confirm your Account first...
+    </p>
+
+
+    <a target="_blank" id="emailButtons" href="https://{{ domain }}{% url 'activate' uidb64=uid token=token %}" >
+        <span style="mso-text-raise: 15pt;"> Confirm you account here !</span>
+    </a>
+{% endblock content %}
+

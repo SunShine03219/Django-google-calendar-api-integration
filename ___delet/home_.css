@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+
+.landingpage
+{
+  padding-bottom: 50px;
+
+}
+
+.lp{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.alert-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 95%;
+}
+
+

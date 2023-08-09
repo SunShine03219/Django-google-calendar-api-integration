@@ -1,0 +1,14 @@
+{% extends 'base.mjml' %}
+
+{% block content %}
+  <mj-section>
+    <mj-column>
+      <mj-text font-size="20px" color="#000000">
+        Hello, {{ user }}!
+      </mj-text>
+      <mj-button background-color="#FF0000" color="#FFFFFF" href="{{ url }}">
+        Click here
+      </mj-button>
+    </mj-column>
+  </mj-section>
+{% endblock %}

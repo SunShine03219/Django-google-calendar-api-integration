@@ -1,0 +1,25 @@
+
+
+$(document).ready(function() {
+    $('.datepicker').datepicker({
+        dateFormat: 'yy-mm-dd' // specify the date format
+    });
+});
+
+
+$(document).ready(function(){
+    $('#createTask').click(function(){
+        let q1 = prompt("Veuillez Entrez IT Ou S");
+        let q2;
+
+        if (q1 == "IT"){
+            q2 = prompt("Voulez vous CLOUD ou SAS");
+        }
+        if (q1 == "S"){
+            q2 = prompt("Voulez vous Finance ou Insurrance");
+        }
+
+        let text = "You selected " + q1 + " and " + q2;
+        console.log(text);
+    });
+});

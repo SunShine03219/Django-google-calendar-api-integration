@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<!-- Google Fonts -->
+    <!-- char-area -->
+  
+        <div class="container">
+            <div class="row">
+                    <div class="chat-area">
+                        <!-- chatbox -->
+                        <div class="chatbox" id="chatbox">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="msg-head">
+                                        <div class="row">
+                                            <div class="col-2" id='chatHeaderCol'>
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1 ms-3">
+                                                        {% if user1 == request.user.username%}
+                                                        <h3>{{user1Company}}</h3>
+                                                        <p>Stakeholder</p>
+                                                        {% else %}
+                                                        <h3>{{user2Company}}</h3>
+                                                        <p>Service Provider</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--div class="col-4" id='chatHeaderCol'>
+                                                {% if user1 == request.user.username%}
+                                                <span class="chat-icon"><img class="img-fluid" src="{{ user1Logo.url }}" alt={% static "icons/applogo.png"%}></span>
+                                                <div class="flex-shrink-0">
+                                                    <img class="img-fluid" src="{{ user1Logo.url }}" alt={% static "icons/applogo.png"%} style="float: right; object-fit: contain; height: 50px; width: 150px;">
+                                                </div>
+                                                {% else %}
+                                                <span class="chat-icon"><img class="img-fluid" src="{{ user2Logo.url }}" alt={% static "icons/applogo.png"%}></span>
+                                                <div class="flex-shrink-0">
+                                                    <img class="img-fluid" src="{{ user2Logo.url }}" alt={% static "icons/applogo.png"%} style=" float: right;object-fit: contain; height: 50px; width: 150px">
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-4" id='chatHeaderCol'>
+                                                {% if user2 == request.user.username%}
+                                                <span class="chat-icon"><img class="img-fluid" src="{{ user1Logo.url }}" alt={% static "icons/applogo.png"%}></span>
+                                                <div class="flex-shrink-0">
+                                                    <img class="img-fluid" src="{{ user1Logo.url }}" alt={% static "icons/applogo.png"%} style=" float: left; object-fit: contain; height: 50px; width: 150px">
+                                                </div>
+                                                {% else %}
+                                                <span class="chat-icon"><img class="img-fluid" src="{{ user2Logo.url }}" alt={% static "icons/applogo.png"%}></span>
+                                                <div class="flex-shrink-0">
+                                                    <img class="img-fluid" src="{{ user2Logo.url }}" alt={% static "icons/applogo.png"%} style=" float: left; object-fit: contain; height: 50px; width: 150px">
+                                                </div>
+                                                {% endif %}
+                                            </div-->
+                                            <div class="col-2" id='chatHeaderCol'>
+                                                <div class="d-flex align-items-end justify-content-end">
+                                                    <div class="flex-grow-1 ms-3 text-end">
+                                                        {% if user1 == request.user.username%}
+                                                        <h3>{{user2Company}}</h3>
+                                                        <p>Service Provider</p>
+                                                        {% else %}
+                                                        <h3>{{user1Company}}</h3>
+                                                        <p>Stakeholder</p>
+                                                        {% endif %}
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body" id="modal-body-chat" >
+                                        <div class="msg-body">
+                                            <ul style="padding :0;important!">
+                                                {% for message in messages %}
+                                                    {% if message.user == request.user %}
+                                                        <li class="sender">
+                                                            <p>{{ message.content }}</p>
+                                                            <span class="chat-timestamp">{{ message.date_added }}</span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="reply">
+                                                            <span class="chat-timestamp">{{ message.date_added }}</span>
+                                                            <p>{{ message.content }}</p>
+                                                            
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            <div id="chat-messages" >
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="send-box" id="send-box">
+                                        <form method = "post" action = ".">
+                                            {% csrf_token %}
+                                            <input type="text" class="form-control" aria-label="message…" placeholder="Write message…" id="chat-message-input">
+                                            <button type="button" id="chat-message-submit"><i class="fa fa-paper-plane" aria-hidden="true" ></i> Send</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        </div>
+
+    <!-- char-area -->
+    {{room.slug|json_script:"json-roomname"}}
+    {{request.user.username|json_script:"json-username"}}
+
+
+    
+    <script src="{% static 'javascript/chat.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+{% endblock content %}

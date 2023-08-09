@@ -1,0 +1,47 @@
+{% extends 'beforeApp.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block content %}
+
+<div class="container mt-4" style="padding-bottom:100px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                <form method="post" id='login' action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="authentication_" value="authentication">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/profile-user.svg' %}" width="20" height="20" alt=""> </span>
+                        {{ authentication_form.username }}
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                        {{ authentication_form.password }}
+                    </div>
+                </form>
+                <div style="text-align: right;">
+                    <button type="button" onclick="document.getElementById('login').submit()" class="btn btn-dark" name="SignIn">Sign In</button>
+                    <span><a type="button" class="btn btn-outline-dark" href="{% url 'projects:dashboard' %}">Already Signed In ?</a></span>
+                    <div><a href="{% url 'forgot_password' %}"><button type="button" class="btn btn-link btn-sm">Forgot Password?</button></a></div>
+                </div>
+                <hr>
+                <div class="alert alert-primary" role="alert" style="text-align: right;">
+                    Not Registered? Join us here!
+                </div>
+                <div style="text-align: right;">
+                    <a href="{% url 'signup'%}"><button type="button" class="btn btn-outline-primary btn-block">Create Account</button></a> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3 style="font-family: 'Calibri';">We help you to Grow your Company</h3>
+            <hr>
+            <div class="container landingpage "id="IdeaContainer">
+                <h5>Luxembourg's Platform for</h5>
+                <h5>Business Partners & Projects</h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
+{% endblock content %}

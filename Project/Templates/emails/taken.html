@@ -1,0 +1,9 @@
+{% extends 'emails.html' %}
+{% load static %}
+{% block content %}
+    <h1>Project Taken</h1>
+    <p>Dear {{ user.username }},</p>
+    <br>
+    <p>We want to inform you that your project {{project}} has been engaged by {{company}}.</p>
+    <br>
+{% endblock content %}

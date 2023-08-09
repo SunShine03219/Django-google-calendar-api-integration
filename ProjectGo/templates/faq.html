@@ -1,0 +1,35 @@
+{% extends  'beforeApp.html'%}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="container mt-4" style = "padding-bottom:100px;">
+    <hr>
+    <h1>FAQ</h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-10">
+        <div class="shadow-lg p-3 mb-5 bg-body rounded">
+            <h5>Who can use the application</h5>
+            <p>Only registred enterprises can use application.</p>
+
+            <h5>When Is my Account active</h5>
+            <p>The Account will be activated after paying the subscription fees.</p>
+
+            <h5>Can I Cancel my subscription</h5>
+            <p>Yes you can send us anytime a message a cancellation request.</p>
+
+            <h5>Can I test the application before subscribing</h5>
+            <p>No, but you can subscribe for one month and request a cancallation.</p>
+
+        </div>
+
+        </div>
+    </div>
+  
+</div>
+
+{% include 'footer.html' %}
+{% endblock content %}

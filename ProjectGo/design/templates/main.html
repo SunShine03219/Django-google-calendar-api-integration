@@ -1,0 +1,136 @@
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!DOCTYPE html>
+
+<html>
+   <head>
+      <title>ProjectGo</title>
+
+      <script src="https://js.stripe.com/v3/"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+      <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+      
+      <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+      <link rel="stylesheet" href="{% static 'css/main.css' %}">
+      <link rel="stylesheet" href="{% static 'css/createTask.css' %}">
+
+
+      
+      <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.css"-->
+
+
+      {%block head%}
+      {%endblock head%}  
+   </head>
+   <body class="container-fluid bg-dark text-white" style="padding-top: 100px">
+      <hr>
+      {% include  'navbar.html'%}
+      {% include 'gdpr.html' %}
+      <div class="container-fluid">
+         <div class="float-end">
+         </div>
+      </div>
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="Menu" aria-labelledby="offcanvasExampleLabel">
+         <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+         </div>
+         <hr>
+         <div class="offcanvas-body">
+            <a class="btn btn-light" href="{% url 'projects:dashboard' %}" id="Create">Go To Dashboard</a> 
+            <a class="btn btn-outline-primary" href="{% url 'calendar:calendar_view' %}" id="Create">Go To Calendar</a> 
+            <hr>
+            Projects 
+            <div class="dropdown mt-3">
+               
+               </button>
+               <div class="btn-group">
+                  <a class="btn btn-outline-light" href="{% url 'projects:my_projects_view' %}">Demands</a>
+                  <a class="btn btn-outline-light" href="{% url 'projects:published_projects' %}">Offers</a> 
+                  <a class="btn btn-outline-light" href="{% url 'projects:engaged_projects' %}">Taken</a>
+               </div>
+              
+            </div>
+            <hr>
+            Archives
+            <br>
+            <div class="dropdown mt-3">
+               <div class="btn-group">
+                  <a class="btn btn-outline-light" href="{% url 'projects:my_projects_view_archived' %}">ArchivedDemands</a>
+                  <a class="btn btn-outline-light" href="{% url 'projects:engaged_projects_archived' %}">ArchivedTaken</a>
+               </div>
+            </div>
+            <hr>
+            <div><a class="btn btn-light" href="{% url 'companies:list' %}">Registred Companies</a></div>
+            <hr>
+
+
+            <div class="dropdown">
+               <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                 <i class="bi bi-bell"></i>
+                 Messages
+                 {% with notifications=user.notifications %}
+                 {% if notifications %}
+                 <span class="badge bg-danger">{{ notifications.all|length }}</span>
+                 {% endif %}
+                 {% endwith %}
+               </a>
+               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                 {% with notifications=user.notifications.all %}
+                 {% if notifications %}
+                 {% for notification in notifications %}
+                 <li><a type="button" class="btn btn-dark" href="/comm/{{ notification.target.room.slug }}">{{ notification.verb }}</a></li>
+                 {% endfor %}
+                 {% else %}
+                 <div class="alert alert-success" role="alert">
+                  You have no new messages!
+                 </div>
+                 {% endif %}
+                 {% endwith %}
+               </ul>
+           
+             </div>
+             <hr>
+             <hr>
+            <div class="form-check form-switch">
+               <input class="form-check-input" type="checkbox" id="mode-toggle">
+               <label class="form-check-label" for="mode-toggle">Light/Dark Mode</label>
+            </div>
+            <hr>
+   
+
+             <button class="btn btn-outline-light" onclick="window.location.href='{% url 'companies:logout' %}'" style="display: flex; align-items: center;">
+               <span>Sign Out</span>
+               <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/OOjs_UI_icon_logOut-ltr-invert.svg" style="object-fit: contain; height: 20px; margin-left: 5px;">
+             </button>
+             
+             
+             
+         </div>
+
+      </div>
+      
+      {% block content %}
+      {% endblock content %}
+
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> 
+   
+
+      {% block scripts %}
+      {% endblock scripts %}
+
+
+      <script src="{% static 'javascript/scripts.js' %}"></script>
+
+
+   </body>
+</html>

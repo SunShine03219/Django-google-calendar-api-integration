@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h1>Welcome</h1>
+    <p>Lets Start with your application.</p>
+    <p>First, you have to activate your account:</p>
+
+    <div class="card">
+        <div class="container mt-5">
+            <!-- Use the Bootstrap button instead of the duplicate button -->
+            <!--a href="https://buy.stripe.com/test_cN2eYU2zYeLyeyY5kk" class="btn btn-primary">Go to Stripe</a-->
+
+
+            <a href="{% url 'companies:start_checkout' %}" class="btn btn-primary">Pay</a>
+        </div>
+    </div>
+
+
+{% endblock %}

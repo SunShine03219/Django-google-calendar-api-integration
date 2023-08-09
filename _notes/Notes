@@ -1,0 +1,11 @@
+(virtualenv) chakib@chakibs-MacBook-Air MyApp % daphne ProjectGo.asgi:application
+
+heroku run python manage.py makemigrations -a projectgo
+
+heroku logs --tail -a projectgo
+
+heroku pg:psql -a projectgo
+
+UPDATE Company_company
+SET id = 139
+WHERE id = 138;

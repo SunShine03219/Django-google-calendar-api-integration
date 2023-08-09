@@ -1,0 +1,61 @@
+<!-- payment.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Page</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Payment Page</h1>
+    <p>Product: Your Product Name</p>
+    <p>Price: $10.00</p>
+
+    <form id="payment-form">
+        <div class="form-group">
+            <label for="card-element">Credit or Debit Card</label>
+            <div id="card-element">
+                <!-- A Stripe Element will be inserted here. -->
+            </div>
+            <!-- Used to display form errors. -->
+            <div id="card-errors" role="alert"></div>
+        </div>
+
+        <button id="submit-payment">Submit Payment</button>
+    </form>
+
+    <script>
+        var stripe = Stripe('{{ publishable_key }}');
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+
+        cardElement.mount('#card-element');
+
+        var cardErrors = document.getElementById('card-errors');
+        var submitButton = document.getElementById('submit-payment');
+
+        submitButton.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(cardElement).then(function (result) {
+                if (result.error) {
+                    cardErrors.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
+</body>
+</html>

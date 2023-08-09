@@ -1,0 +1,137 @@
+{% extends 'main.html' %}
+{% load static %} 
+{% block content %}
+
+
+
+<table class="table-dark table table-hover">
+    <thead>
+        <tr>
+            <th style="width: 15%"> <a class="small-font" href="?sort=title&dir={{ next_dir }}">        Title</a></th>
+            <th style="width: 6%">  <a class="small-font" href="?sort=budget&dir={{ next_dir }}">       Budget</a></th>
+            <th style="width: 22%"> <a class="small-font" href="?sort=categoryL1&dir={{ next_dir }}">   Domain</a></th>
+            <th style="width: 22%"> <a class="small-font" href="?sort=categoryL2&dir={{ next_dir }}">   Category</a></th>
+            <th style="width: 10%"> <a class="small-font" href="?sort=creation_date&dir={{ next_dir }}">Created</a></th>
+            <th style="width: 10%"> <a class="small-font" href="?sort=start_date&dir={{ next_dir }}">   Start</a></th>
+            <th style="width: 10%"> <a class="small-font" href="?sort=deadline&dir={{ next_dir }}">     Deadline</a></th>
+            <th style="width: 5%">  <a class="small-font" href="?sort=status&dir={{ next_dir }}">       Status/Detail</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in queryset %}
+        <!--tr {% if item.status == 'Y' %}class="bg-warning"{% endif %}-->
+        <tr>
+
+            <td class="small-font">{{ item.title }}</td>
+            <td class="small-font">{{ item.budget|floatformat:0 }} €</td>
+            <td class="small-font">
+                {% if item.categoryL1 == 'IT' %}
+                <div class="alert alert-primary">
+                    Informations Technology
+                <div>
+                {% else %}
+                <div class="alert alert-primary">
+                    Services
+                <div>
+                {% endif %}
+            </td>
+            <td class="small-font">
+                {% for category in item.categoryL2 %}
+                <div class="alert alert-success">
+                    {{ category }}
+                </div>       
+                    {% endfor %}
+            </td>
+            <td class="small-font">{{ item.creation_date }} </td>
+            <td class="small-font">{{ item.start_date }}</td>
+            <td class="small-font">{{ item.deadline_date }}</td>
+            <td class="small-font">
+                {% if item.status == 'Y' %}
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#detailModal{{ item.pk }}"style="width: 150px;">Detail</button>
+                <form method="POST" action="{% url 'projects:delete_project' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_pk" value="{{ item.pk }}"style="width: 150px;">
+                    <button class="btn btn-outline-danger delete-btn btn-sm" id="delete-btn"style="width: 150px;">Delete</button>
+                </form>
+                {% endif %}
+                {% if item.status == 'B' %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal{{ item.pk }}"style="width: 150px;">Detail</button>
+                    <a href="{% url 'communication:chatEnter' slug=item.chatID %}">
+                        <button type="button"  class="btn btn-outline-secondary btn-sm"style="width: 150px;">Chat</button>
+                    </a>
+                    <form method="POST" action="{% url 'projects:finish_project' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_pk" value="{{ item.pk }}">
+                        <button type="submit" class="btn btn-outline-success finish-btn btn-sm"style="width: 150px;">Finish IT</button>
+                    </form>
+                    <form method="POST" action="{% url 'projects:cancel_project' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="item_pk" value="{{ item.pk }}">
+                      <button class="btn btn-outline-warning cancel-btn btn-sm" id="cancel-btn"style="width: 150px;">Cancel</button>
+                    </form>
+                {% endif %}
+                {% if item.status == 'G' %}
+                <form method="POST" action="{% url 'companies:rating' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_pk" value="{{ item.pk }}">
+                    <button type="submit" class="btn btn-success" style="width: 150px;">Rating</button>
+                </form>
+                {% endif %}
+                <form method="POST" action="{% url 'projects:duplicate_project' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_pk" value="{{ item.pk }}">
+                    <button type="submit" class="btn btn-outline-secondary duplicate-btn btn-sm"style="width: 150px;">Duplicate</button>
+                </form>
+            </td>
+        </tr>
+
+        <!-- Modal Detail -->
+        <div class="modal fade" id="detailModal{{ item.pk }}">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Detail of your Demand</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-primary">Engaged Company for this Task:</div>
+                    {% if item.pr_provider and item.pr_provider.company.pk != 1 %}
+                    <form method="POST" action="{% url 'companies:detail' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_pk" value="{{ item.pr_provider.company.pk }}">
+                        <div class="alert alert-light"><button class="btn btn-outline-secondary">{{item.engaged_date}} by  {{ item.pr_provider.company.company }}</button></div>
+                     </form>
+                    {% else %}
+                    <div class="alert alert-light">No company has engaged to your Task yet</div>
+                    {% endif %}
+                    <div class="alert alert-primary">Description:</div>
+                    <div class="alert alert-light">{{ item.description }}</div>
+                    <div class="alert alert-primary">linked Tags:</div>
+                    <div class="d-flex justify-content-center flex-wrap">
+                    {% for tag in item.tags.all %}
+                       <div class="alert alert-light">{{ tag.name }}</div>
+                    {% endfor %}
+                    </div>
+                 </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </tbody>
+</table> 
+
+
+
+<script src="{% static 'javascript/taskDemand.js' %}"></script>
+<script>
+
+    var sortParam = '{{ sort_param }}';
+    var sortDir = '{{ sort_dir }}';
+
+</script>
+
+{% endblock content %}

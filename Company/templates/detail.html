@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load appUser_filters %}
+{% load stars_filters %}
+{% block content %}
+<div class="container mt-4">
+   <div class="row">
+      <div class="col-md-6">
+         <div class="shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="card-body ">
+               {% if company.logo %}
+               <img src="{{ company.logo.url }}" class="card-img-top" style="object-fit: contain; height: 200px; width: 100%;" alt="">
+               {% else %}
+               <img src="{% static 'icons/applogo.png' %}" class="card-img-top" style="object-fit: contain; height: 200px; width: 100%;" alt="">
+               {% endif %}
+               <h5 class="card-title" style="color: black;">{{ item.logo }}</h5>
+               {% with rating=user.id|average_rating %}
+                  <p class="card-text" style="color: black;">
+                     <img src="{{ rating|get_star_rating_image }}" style="float: right; object-fit: contain; height: 20px;">
+                  </p>
+               {% endwith %}
+            </div>
+         </div>
+      </div>
+      <div class="col-md-6">
+         <table class="table-dark table table-hover">
+            <tbody>
+               <head>
+                  <th scope="row"></th>
+                  <td></td>
+               </head>
+              <tr>
+                <th scope="row">Company Name</th>
+                <td>{{ company.company}} / {{ company.user}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Email</th>
+                <td>{{ company.emailToContact}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Tel</th>
+                <td>{{ company.telephone}}</td>
+              </tr>
+              <tr>
+               <th scope="row">Address</th>
+               <td>{{ company.address}}</td>
+             </tr>
+             <tr>
+               <th scope="row">City</th>
+               <td>{{ company.postcode}} {{ company.city}}</td>
+             </tr>
+             <tr>
+               <th scope="row">Country</th>
+               {% if company.state == "L" %}
+               <td> <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Flag_of_Luxembourg.svg" style="float: left; object-fit: contain; height: 20px;"></td>
+               {% elif company.state == "F" %}
+               <td> <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Flag_of_France.png" style="float: left; object-fit: contain; height: 20px;"></td>
+               {% elif company.state == "DE" %}
+               <td> <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_East_Germany_%281949%E2%80%931959%29.png" style="float: left; object-fit: contain; height: 20px;"></td>
+               {% elif company.state == "BE" %}
+               <td> <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Flag_of_Belgium.png" style="float: left; object-fit: contain; height: 20px;"></td>
+               {% endif %}
+             </tr>
+            </tbody>
+          </table>
+      </div>
+   </div>
+</div>
+
+<div class="container">
+    
+   <h5>Description:</h5>
+   <div class="shadow-lg p-3 mb-5 rounded bg-dark text-white" style="border: 1px solid white;">
+   {{ company.description}}
+   </div>
+
+   <div class="container">
+      {% with comments=company.user.id|rating_comments %}
+               <h5>Comments:</h5>
+               {% for comment, rate in comments %}
+               <div class="shadow-lg p-3 mb-5 rounded bg-dark text-white" style="border: 1px solid white;">
+                   <img src="{{ rate|star_rating }}" style="float: right; object-fit: contain; height: 20px;">
+                   {% if comment %}
+                       <p>{{ comment }}</p>
+                   {% else %}
+                       <p>No comments added</p>
+                   {% endif %}
+               </div>
+           {% endfor %}
+      {% endwith %}  
+   </div>
+</div>
+
+{% endblock %}

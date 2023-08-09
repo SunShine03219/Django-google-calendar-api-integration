@@ -1,0 +1,4 @@
+heroku logs --tail -a projectgo
+python manage.py collectstatic 
+gunicorn ProjectGo.asgi:application
+daphne -b 0.0.0.0 -p 8000 ProjectGo.asgi:application

@@ -1,0 +1,155 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+
+<table class="table-dark table table-hover">
+    <thead>
+        <tr>
+            <th style="width: 20%"><a class="small-font" href="?sort=title&dir={{ next_dir }}">Title</a></th>
+            <th style="width: 6%"><a class="small-font" href="?sort=budget&dir={{ next_dir }}">Budget</a></th>
+            <th style="width: 22%"><a class="small-font" href="?sort=categoryL1&dir={{ next_dir }}">Domain</a></th>
+            <th style="width: 22%"><a class="small-font" href="?sort=categoryL2&dir={{ next_dir }}">Category</a></th>
+            <th style="width: 15%"><a class="small-font" href="?sort=start_date&dir={{ next_dir }}">Start</a></th>
+            <th style="width: 15%"><a class="small-font" href="?sort=deadline&dir={{ next_dir }}">Deadline</a></th>
+            <th style="width: 5%"><a class="small-font" href="?sort=status&dir={{ next_dir }}">Status/Detail</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in queryset %}
+        <!--tr {% if item.status == 'Y' %}class="bg-warning"{% endif %}-->
+        <tr>
+            <td class="small-font">{{ item.title }}</td>
+            <td class="small-font">{{ item.budget|floatformat:0 }} €</td>
+            <td class="small-font">
+                {% if item.categoryL1 == 'IT' %}
+                <div class="alert alert-primary">
+                    Informations Technology
+                <div>
+                {% else %}
+                <div class="alert alert-primary">
+                    Services
+                <div>
+                {% endif %}
+            </td>
+            <td class="small-font">
+                {% for category in item.categoryL2 %}
+                <div class="alert alert-success">
+                    {{ category }}
+                </div>       
+                    {% endfor %}
+            </td>
+            <td class="small-font">{{ item.start_date }}</td>
+            <td class="small-font">{{ item.deadline }}</td>
+            <td 
+                class="small-font">
+                {% if item.status == 'G' %}
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal{{ item.pk }}"style="width: 150px;">Detail</button>
+                {% endif %}
+                {% if item.status == 'Y' %}
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#myModal{{ item.pk }}"style="width: 150px;">Detail</button>
+                {% endif %}
+                {% if item.status == 'B' %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal{{ item.pk }}"style="width: 150px;">Detail</button>
+                <a href="{% url 'communication:chatEnter' slug=item.chatID %}">
+                    <button type="button"  class="btn btn-outline-primary"style="width: 150px;">Chat</button>
+                </a>
+                {% endif %}
+               
+            </td>
+        </tr>
+
+
+        <div class="modal fade" id="myModal{{ item.pk }}">
+            <div class="modal-dialog">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Task Detail</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+          
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="alert alert-primary">Company (Stackholder):</div>
+                    <form method="POST" action="{% url 'companies:detail' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_pk" value="{{ item.pr_provider.company.pk }}">
+                        <div class="alert alert-light"><button class="btn btn-outline-secondary">{{ item.pr_provider.company.company }}</button></div>
+                     </form>
+                    <div class="alert alert-primary">Description:</div>
+                    <div class="alert alert-light">{{ item.description }}</div>
+                    <div class="alert alert-primary">Linked Tags:</div>
+                    {% for tag in item.tags.all %}
+                       <div class="alert alert-light">{{ tag.name }}</div>
+                    {% endfor %}
+                    <div class="alert alert-primary">File:</div>
+                    {% if item.file %}
+                    {% else %}
+                     <div class="alert alert-light">No File attached</div>
+                  {% endif %}
+                 </div>
+          
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    {% if item.file %}
+                        <a href="{% url 'projects:download_file' item.pk %}" download="{{ item.file.name }}" class="btn btn-primary">Download File</a>
+                    {% endif %}
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+
+
+        {% endfor %}
+    </tbody>
+</table> 
+
+<!-- Modal -->
+<!-- The Modal -->
+
+
+
+<script>
+
+    // Get all the table headers
+    const ths = document.querySelectorAll('th');
+
+    // Loop through each table header
+    ths.forEach((th) => {
+    // Get the child anchor element
+    const a = th.querySelector('a');
+
+    // Get the sort parameter and direction from the anchor's href attribute
+    const href = a.getAttribute('href');
+    const sortParam = href.split('=')[1].split('&')[0];
+    const sortDir = href.split('=')[2];
+
+    // If the current sort parameter and direction match the current header, add the appropriate arrow icon
+    if (sortParam === '{{ sort_param }}' && sortDir === '{{ sort_dir }}') {
+        const arrow = sortDir === 'asc' ? '&uarr;' : '&darr;';
+        a.innerHTML += arrow;
+    }
+    });
+
+    var deleteButtons = document.getElementsByClassName("delete-btn");
+    for (var i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", function() {
+            event.preventDefault()
+            var result = confirm("Are you sure you want to delete this item?");
+            console.log(result);
+            if (result) {
+                // The user clicked OK, so submit the form
+                this.closest("form").submit();
+            }
+
+        });
+    }
+
+</script>
+
+{% endblock content %}

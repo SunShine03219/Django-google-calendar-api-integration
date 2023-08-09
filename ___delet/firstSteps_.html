@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h1>Welcome</h1>
+    <p>Lets Start with your application.</p>
+    <p>First, you have to activate your account:</p>
+
+    <div class="card">
+        <div class="container mt-5">
+            <!-- Use the Bootstrap button instead of the duplicate button -->
+            <a href="https://buy.stripe.com/test_cN2eYU2zYeLyeyY5kk" class="btn btn-primary">Go to Stripe</a>
+        </div>
+    </div>
+
+    <!-- Move the Stripe.js script to the <head> section -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Keep only one payment button with ID 'payButton' -->
+    <button id="payButton">Pay Now</button>
+
+    <script>
+        // Set your Stripe publishable key
+        var stripe = Stripe('pk_test_51NWmUNE6xWqutRh7btPzjJIs7WBYkOUvlR1OBXEG7a9vxSutLgMlW8O063JHoipCnqm4QBk82B2XU4cniNyMekqX00khNS633L');
+
+        // Handle the click event on the Pay Now button
+        document.getElementById('payButton').addEventListener('click', function() {
+            // Create a new Stripe Checkout session
+            stripe.redirectToCheckout({
+                items: [{price: 'price_1NWmgpE6xWqutRh7xFXHFeu2', quantity: 1}], // Use the price ID you created on the Stripe dashboard
+                successUrl: window.location.href, // Redirect back to the same page if payment is successful
+                cancelUrl: window.location.href, // Redirect back to the same page if payment is canceled
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="gdprModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Welcome to <b>ProjectGo.lu</b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            <form id="gdprForm" method="POST" action="{% url 'gdpr_approval' %}">
+                {% csrf_token %}
+            We use cookies to offer our visitors a better experience and personalized content. 
+            We also may share information about your use of our site with our social media, advertising and analytics partners.
+            <hr>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  Review Settings
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <div class="form-check form-switch">
+                        <div class="alert alert-primary" role="alert">
+                            <input class="form-check-input" type="checkbox" name="cookies1">
+                            <label class="form-check-label" for="cookies1">Functional Cookies</label>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <div class="alert alert-primary" role="alert">
+                            <input class="form-check-input" type="checkbox" name="cookies2">
+                            <label class="form-check-label" for="cookies2">Advertising Cookies</label>
+                        </div>    
+                    </div>
+                    <div class="card">
+                        <button type="submit" class="btn btn-primary" name="save_preferences">Save Preferences</button>
+                    </div>
+                </ul>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" name="accept_all">Accept All</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> 
+      
+<script>
+    {% if request.session.gdprIsSet != "set" %}
+        $(document).ready(function() {
+            $('#gdprModal').modal('show');    
+        });
+    {% endif %}
+</script>

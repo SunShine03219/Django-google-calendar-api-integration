@@ -1,0 +1,52 @@
+$(document).ready(function() {
+  // Delete item
+  $('.delete-btn').click(function() {
+      var item_pk = $(this).data('item-pk');
+      $.ajax({
+          url: '/tasks/delete_item/',
+          type: 'POST',
+          data: {'item_pk': item_pk, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          success: function(response) {
+              // Handle success response
+          },
+          error: function(response) {
+              // Handle error response
+          }
+      });
+  });
+
+  // Finish item
+  $('.finish-btn').click(function() {
+      var item_pk = $(this).data('item-pk');
+      $.ajax({
+          url: '{% url "tasks:finish_item" %}',
+          type: 'POST',
+          data: {'item_pk': item_pk, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          success: function(response) {
+              // Handle success response
+          },
+          error: function(response) {
+              // Handle error response
+          }
+      });
+  });
+
+  // Rate item
+  $('.rating-btn').click(function() {
+      var item_pk = $(this).data('item-pk');
+      $.ajax({
+          url: '{% url "users:rating" %}',
+          type: 'POST',
+          data: {'item_pk': item_pk, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          success: function(response) {
+              // Handle success response
+          },
+          error: function(response) {
+              // Handle error response
+          }
+      });
+  });
+});
+
+
+

@@ -1,0 +1,59 @@
+{% load static %}
+{% load bootstrap5 %}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>ProjectGo</title>
+        <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <!-- jQuery UI CSS -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <!-- jQuery and jQuery UI JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    {% include 'gdpr.html' %}
+
+
+    <body class="container-fluid"> 
+        <span class="input-group-text" id="basic-addon2"> 
+          <div class="container mt-4 bar">
+            <img src="{% static 'icons/applogo.png' %}"  class="logo-image" alt="MyApp" onclick="window.location.href='{% url 'home' %}';">
+          </div>
+        </span>
+    {% block content %}
+    {% endblock content %}
+    {% block smartphone_content %}
+    {% endblock smartphone_content %}
+
+
+    <div class="modal fade" id="sendMessage" tabindex="-1" aria-labelledby="sendMessageLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sendMessageLabel">Your message</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+  
+            <form method="post" action="{% url 'home' %}">
+              {% csrf_token %}
+              {{ message_form.as_p }}
+              <button type="submit" class="btn btn-primary">Submit Message</button>
+            </form>
+        
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>  
+</html>

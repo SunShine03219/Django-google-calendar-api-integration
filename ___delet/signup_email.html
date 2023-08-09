@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome to Our Company</title>
+</head>
+<body>
+    <img src="{% static 'icons/applogo.png' %}" width="50" height="50" class="d-inline-block align-cneter" alt="Logo.png">
+    <h1>Welcome to Our Company!</h1>
+    <p>Dear {{ user.username }},</p>
+    <p>Thank you for signing up. We are excited to have you as a new member of our company.</p>
+    <p>Please find below our company logo:</p>
+    {% if logo_attachment %}
+        <img src="cid:{{ logo_cid }}" alt="Company Logo">
+    {% else %}
+        <p>Company Logo not found.</p>
+    {% endif %}
+    <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+    <p>Best regards,</p>
+    <p>The Our Company Team</p>
+</body>
+</html>

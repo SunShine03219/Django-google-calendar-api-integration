@@ -1,0 +1,143 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<h4 class="alert alert-light">Profile</h4>
+<form method="POST" enctype="multipart/form-data">
+   {% csrf_token %}
+   <div class="row">
+      <div class="col-md-4">
+         <div class="container mt-4">
+            <div class="card">
+               {% if form.instance.logo %}
+               <img src="{{ form.instance.logo.url }}">
+               {% endif %}
+               <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text"></p>
+               </div>
+            </div>
+         </div>
+         <br>
+         <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#LoginData">Login Data</button>
+         </div>
+      </div>
+      
+      <div class="col-md-8">
+         <div class="container mt-8">
+            <div class="form-group my-input">
+               {{ form.company.label_tag }}
+               {{ form.company }}
+               {{ form.company.errors }}
+            </div>
+            <br>
+            <div class="form-group my-input">
+               {{ form.tva.label_tag }}
+               {{ form.tva }}
+               {{ form.tva.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.emailToContact.label_tag }}
+               {{ form.emailToContact }}
+               {{ form.emailToContact.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.telephone.label_tag }}
+               {{ form.telephone }}
+               {{ form.telephone.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.address.label_tag }}
+               {{ form.address }}
+               {{ form.address.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.postcode.label_tag }}
+               {{ form.postcode }}
+               {{ form.postcode.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.city.label_tag }}
+               {{ form.city }}
+               {{ form.city.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.state.label_tag }}
+               {{ form.state }}
+               {{ form.state.errors }}
+            </div>
+            <div class="form-group">
+               {{ form.description.label_tag }}
+               {{ form.description }}
+               {{ form.description.errors }}
+            </div>
+            <br>
+            <div class="form-group">
+               {{ form.logo.label_tag }}
+               {{ form.logo }}
+               {{ form.logo.errors }}
+            </div>
+         </div>
+         <br>
+      </div>
+   </div>
+   <br>
+   </div>
+</form>
+
+<div class="modal fade" id="LoginData">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal IT Header -->
+         <div class="modal-header">
+            <h4 class="modal-title">Change Login Data</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+         </div>
+         <!-- Modal IT body -->
+         <div class="modal-body">
+            <form method="POST">
+               {% csrf_token %}
+               Change UserName:
+               <div class="input-group mb-3">
+                   <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/profile-user.svg' %}" width="20" height="20" alt=""> </span>
+                     {{ userLoginform.username }}
+               </div>
+               Change Email:
+               <div class="input-group mb-3">
+                   <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/envelope.png' %}" width="20" height="20" alt=""> </span>
+                 <!--{{ form.username.label_tag }}-->
+                 {{ userLoginform.email }}
+               </div>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <hr>
+            <form method="POST">
+               {% csrf_token %}
+               Change Password:
+               <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                  {{ passwordLoginform.old_password}}
+               </div>
+               <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                  {{ passwordLoginform.new_password1 }}
+               </div>
+               <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                  {{ passwordLoginform.new_password2 }}
+               </div>
+               <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+      </div>
+   </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends  'beforeApp.html' %}
+{% load static %}
+{% block content %}
+{% include 'gdpr.html' %}
+
+
+
+    <div class="container-fluid  lp" style="padding-bottom: 150px">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="shadow-lg p-3 mb-5 bg-body rounded">
+            <form method="post" id='login' action="{% url 'login' %}">
+              {% csrf_token %}
+              <input type="hidden" name="authentication_" value="authentication">
+              <div class="input-group mb-3" >
+                  <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/profile-user.svg' %}" width="20" height="20" alt=""> </span>
+                  {{ authentication_form.username }}
+              </div>
+              <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><img class="icon input-icon" src="{% static 'icons/key.svg' %}" width="20" height="20" alt=""> </span>
+                {{ authentication_form.password }}
+              </div>
+            </form>
+            <div style="text-align: right;">
+              <button type="button" onclick="document.getElementById('login').submit()" class="btn btn-dark" name="SignIn">Sign In</button>
+              <span><a type="button" class="btn btn-outline-dark" href="{% url 'projects:dashboard' %}">Already Signed In ?</a></span>
+          </div>
+          <hr>
+          <div class="alert alert-primary" role="alert" style="text-align: right;">
+            Not Registred? Join us here!
+          </div>
+          <div style="text-align: right;">
+            <a href="{% url 'companies:signup'%}"><button type="button" class="btn btn-outline-primary btn-block">Create Account</button></a>
+          </div>  </div>  
+        </div>
+        <div class="col-md-6" >
+          <!--div class="card">
+              <div class="container landingpage ">
+                  <span>
+                    <a type="button" class="btn btn-outline-warning" style="width:300px" href="{% url 'pr_pub' %}">Project Publishement</a>
+                  </span>
+                  <span>
+                    <img src="{% static 'pics/ProjectGo_Icon__-02.png' %}" width="80" height="80" alt="">
+                  </span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="container landingpage">
+                <span>
+                  <a type="button" class="btn btn-outline-primary" style="width:300px" href="{% url 'pa_con' %}">Partner Connection</a>
+                </span>
+                <span>
+                  <img src="{% static 'pics/ProjectGo_Icon__-03.png' %}" width="80" height="80" alt="">
+                </span>
+              </div>
+            </div>
+            <div class="card" >
+              <div class="container landingpage">
+                <span>
+                  <a type="button" class="btn btn-outline-success" style="width:300px;"href="{% url 'pr_com' %}">Project Completion</a>
+                </span>
+                <span>
+                  <img src="{% static 'pics/ProjectGo_Icon__-01.png' %}" width="80" height="80" alt="">
+                </span>
+              </div>    
+            </div-->  
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="sendMessage" tabindex="-1" aria-labelledby="sendMessageLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sendMessageLabel">Your message</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <form method="post" action="{% url 'home' %}">
+              {% csrf_token %}
+              {{ message_form.as_p }}
+              <button type="submit" class="btn btn-primary">Submit Message</button>
+            </form>
+        
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+ 
+
+
+ 
+
+{%endblock content%}

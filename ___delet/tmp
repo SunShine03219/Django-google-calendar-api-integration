@@ -1,0 +1,54 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.utils import timezone
+from django.contrib.postgres.fields import ArrayField
+
+CAT_LEVEL1 = (
+    ('IT', 'Informations & Technology'),
+    ('S', 'Financial & Insurrance'),
+)
+
+
+CAT_LEVEL_S = (
+    ('F', 'Financial'),
+    ('I', 'Insurrance'),
+)
+
+CAT_STATUS = (
+    ('Y', 'Open'),
+    ('B', 'In Progress'),
+    ('G', 'Done'),
+)
+
+#
+# Model of a Task
+#
+class Task(models.Model):
+    task_created_by     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_task')
+    task_assigned_to    = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_task')
+    title               = models.CharField(max_length=50)
+    budget              = models.FloatField()
+    description         = models.TextField()
+    categoryL1          = models.CharField(choices=CAT_LEVEL1, max_length=2, default='IT')
+    categoryL2          = ArrayField(models.CharField(max_length=100),default=list, blank=True)
+    status              = models.CharField(choices=CAT_STATUS, max_length=1, default='Y')
+    creation_date       = models.DateField(default=timezone.now)
+    start_date          = models.DateField(default=timezone.now)
+    deadline            = models.DateField(default=timezone.now)
+    
+    def __str__(self):
+        return self.title
+#
+# Model Task Transactions
+#    
+class TTransactions (models.Model):
+    created_by          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_task_comments')
+    assigned_to         = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_task_comments')
+    task                = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='task_comments')
+    comment             = models.TextField()
+
+    class Meta:
+        db_table = 'task_comments'
+    
+    

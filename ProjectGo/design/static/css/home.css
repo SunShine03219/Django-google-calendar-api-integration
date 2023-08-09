@@ -1,0 +1,60 @@
+
+
+.landingpage
+{
+  padding-bottom: 50px;
+
+}
+
+.lp{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.alert-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+footer {
+  padding-right: 100px;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 95%;
+}
+
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input-group-text#basic-addon2 {
+  background-image: linear-gradient(to right, #092163, #fafbfc);
+}
+
+  /* Gradient background */
+  #IdeaCard {
+    
+    border-radius: 10px;
+    padding: 20px;
+    color: rgb(48, 28, 151);
+    text-align: left;
+  }
+
+  /* Font style for a successful business */
+  #IdeaContainer {
+    font-family: 'Calibri';
+    font-size: 24px;
+  }
+
+  .logo-image {
+    width: 15%;
+    height: auto;
+    cursor: pointer;
+    /* Add any additional styles if needed */
+
+    padding-left: 10px; 
+    padding-right: 10px; 
+    padding-bottom: 15px;
+  }

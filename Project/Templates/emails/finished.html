@@ -1,0 +1,9 @@
+{% extends 'emails.html' %}
+{% load static %}
+{% block content %}
+    <h1>Project Finished</h1>
+    <p>Dear {{ user.username }},</p>
+    <br>
+    <p>We want to inform you that the project {{project}} published by the company {{company}} has been marked as "Finished".</p>
+    <br>
+{% endblock content %}
